@@ -221,7 +221,7 @@ public class UVVestCapability implements IItemHandlerModifiable {
     public boolean matchFilter(ItemStack stack) {
         var filtersList = getFilters();
         if (filtersList.stream().allMatch(ItemStack::isEmpty)) return true;
-        return filtersList.stream().anyMatch(f -> ItemStack.isSameItemSameComponents(f, stack));
+        return filtersList.stream().anyMatch(filterItem -> ItemStack.isSameItemSameComponents(filterItem, stack));
     }
 
     private ItemStack insertWithOverflow(ItemStack toInsert) {
