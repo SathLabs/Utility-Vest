@@ -3,6 +3,7 @@ package dev.satherov.utilityvest.common.menu;
 
 import dev.satherov.utilityvest.common.capabilities.UVVestCapability;
 import dev.satherov.utilityvest.common.item.UVVestItem;
+import dev.satherov.utilityvest.common.item.UVVestReference;
 import dev.satherov.utilityvest.core.UVRegistry;
 import dev.satherov.utilityvest.core.annotations.NothingNull;
 import dev.satherov.utilityvest.core.lang.UVLanguage;
@@ -10,9 +11,9 @@ import dev.satherov.utilityvest.core.lang.UVLanguage;
 import net.neoforged.neoforge.items.SlotItemHandler;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
@@ -21,8 +22,19 @@ import net.minecraft.world.item.ItemStack;
 @NothingNull
 public class UVFilterMenu extends UVVestMenu {
     
-    public UVFilterMenu(int containerId, Inventory inventory, int rows) {
-        super(getMenuProvider(rows), containerId, inventory, rows);
+    public UVFilterMenu(int containerId, Inventory inventory, int rows, UVVestReference vestReference) {
+        super(UVFilterMenu.getMenuProvider(rows), containerId, inventory, rows, vestReference, ItemStack.EMPTY);
+    }
+    
+    public UVFilterMenu(int containerId, Inventory inventory, RegistryFriendlyByteBuf data, int rows) {
+        super(
+                UVFilterMenu.getMenuProvider(rows),
+                containerId,
+                inventory,
+                rows,
+                UVVestReference.read(data),
+                ItemStack.OPTIONAL_STREAM_CODEC.decode(data)
+        );
     }
     
     private static MenuType<?> getMenuProvider(int rows) {

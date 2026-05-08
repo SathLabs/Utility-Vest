@@ -3,6 +3,7 @@ package dev.satherov.utilityvest.network;
 import dev.satherov.utilityvest.UtilityVest;
 import dev.satherov.utilityvest.common.capabilities.UVVestCapability;
 import dev.satherov.utilityvest.common.item.UVVestItem;
+import dev.satherov.utilityvest.common.item.UVVestReference;
 import dev.satherov.utilityvest.core.lang.UVLanguage;
 
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -16,7 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
-public record RestockPayload(boolean filter) implements CustomPacketPayload {
+public record RestockPayload(UVVestReference vestReference) implements CustomPacketPayload {
     
     public static final StreamCodec<FriendlyByteBuf, RestockPayload> STREAM_CODEC =
             CustomPacketPayload.codec(RestockPayload::encode, RestockPayload::new);
@@ -26,16 +27,16 @@ public record RestockPayload(boolean filter) implements CustomPacketPayload {
     );
     
     private RestockPayload(FriendlyByteBuf buf) {
-        this(buf.readBoolean());
+        this(UVVestReference.read(buf));
     }
     
     public void encode(FriendlyByteBuf buf) {
-        buf.writeBoolean(this.filter);
+        this.vestReference.write(buf);
     }
     
     @Override
     public CustomPacketPayload.Type<? extends CustomPacketPayload> type() {
-        return TYPE;
+        return RestockPayload.TYPE;
     }
     
     public static class Handler {
@@ -45,9 +46,10 @@ public record RestockPayload(boolean filter) implements CustomPacketPayload {
                     return;
                 }
                 
-                ItemStack vestStack = UVVestItem.getVest(player, false);
+                ItemStack vestStack = msg.vestReference.resolve(player);
                 
                 if (!vestStack.isEmpty() && vestStack.getItem() instanceof UVVestItem) {
+                    UVVestItem.ensureVestId(vestStack);
                     IItemHandler handler = vestStack.getCapability(Capabilities.ItemHandler.ITEM);
                     
                     if (handler instanceof UVVestCapability capability) {

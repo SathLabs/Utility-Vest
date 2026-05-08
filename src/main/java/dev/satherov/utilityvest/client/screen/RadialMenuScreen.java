@@ -3,12 +3,11 @@ package dev.satherov.utilityvest.client.screen;
 import dev.satherov.utilityvest.client.input.UVKeybindManager;
 import dev.satherov.utilityvest.common.capabilities.UVVestCapability;
 import dev.satherov.utilityvest.common.item.UVVestItem;
+import dev.satherov.utilityvest.common.item.UVVestReference;
 import dev.satherov.utilityvest.config.UVConfig;
 import dev.satherov.utilityvest.core.lang.UVLanguage;
 import dev.satherov.utilityvest.network.UVNetworking;
 
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.world.item.ArmorItem;
 import net.neoforged.neoforge.capabilities.Capabilities;
 
 import net.minecraft.ChatFormatting;
@@ -17,9 +16,11 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
@@ -49,13 +50,15 @@ public class RadialMenuScreen extends Screen {
     private final List<RadialMenuItem> menuItems = new ArrayList<>();
     private final int banks;
     private final ItemStack vest;
+    private final UVVestReference vestReference;
     
     private int hoveredIndex = -1;
     private int row = 0;
     
-    public RadialMenuScreen(ItemStack vest, int banks, int lastRowOpen) {
+    public RadialMenuScreen(ItemStack vest, UVVestReference vestReference, int banks, int lastRowOpen) {
         super(Component.literal("Radial Menu"));
         this.vest = vest;
+        this.vestReference = vestReference;
         this.banks = banks;
         this.row = lastRowOpen;
         this.updateDisplay();
@@ -87,7 +90,7 @@ public class RadialMenuScreen extends Screen {
         graphics.pose().pushPose();
         graphics.pose().translate(0.0F, 0.0F, 200.0F);
         final String text = Integer.toString(this.row + 1);
-        graphics.drawString(font, text, xPos + 17 - font.width(text), yPos + 9, 16777215, true);
+        graphics.drawString(this.font, text, xPos + 17 - this.font.width(text), yPos + 9, 16777215, true);
         graphics.pose().popPose();
         
         if (this.hoveredIndex < 0) {
@@ -172,20 +175,20 @@ public class RadialMenuScreen extends Screen {
         
         if (!stack.isEmpty()) {
             graphics.renderItem(stack, x, y);
-
+            
             UVConfig.RadialStackCountDisplay display = UVConfig.RadialStackCount;
-
+            
             if (display.equals(UVConfig.RadialStackCountDisplay.NEVER) && stack.getCount() == 1) {
                 return;
             }
-
+            
             if (display.equals(UVConfig.RadialStackCountDisplay.TOOLS_ONLY)
-            && (stack.has(DataComponents.TOOL) || stack.getItem() instanceof ArmorItem)) {
+                    && (stack.has(DataComponents.TOOL) || stack.getItem() instanceof ArmorItem)) {
                 return;
             }
-
+            
             graphics.renderItemDecorations(this.font, stack, x, y, String.valueOf(stack.getCount()));
-
+            
         }
         
         if (!isHovered) return;
@@ -265,7 +268,7 @@ public class RadialMenuScreen extends Screen {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (this.hoveredIndex < 0) {
-            UVNetworking.doSwap(this.minecraft.player, button == 0, this.vest, -1);
+            UVNetworking.doSwap(this.minecraft.player, button == 0, this.vestReference, this.vest, -1);
             this.updateDisplay();
             return true;
         }
@@ -293,10 +296,10 @@ public class RadialMenuScreen extends Screen {
     @Override
     public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
         if (UVKeybindManager.RADIAL_KEY.matches(keyCode, scanCode)) {
-            if (UVConfig.RememberRadialRow && vest.getItem() instanceof UVVestItem vestItem) {
-                vestItem.setLastOpenRow(this.row);
+            if (UVConfig.RememberRadialRow && this.vest.getItem() instanceof UVVestItem vestItem) {
+                vestItem.setLastOpenRow(this.vest, this.row);
             }
-
+            
             this.onClose();
         }
         return true;
@@ -321,7 +324,7 @@ public class RadialMenuScreen extends Screen {
                 final int idx = startIndex + i;
                 ItemStack stack = stacks.get(idx);
                 this.addMenuItem(stack, dir -> {
-                    UVNetworking.doSwap(this.minecraft.player, dir, this.vest, idx);
+                    UVNetworking.doSwap(this.minecraft.player, dir, this.vestReference, this.vest, idx);
                     this.updateDisplay();
                 });
             }

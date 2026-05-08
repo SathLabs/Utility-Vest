@@ -2,6 +2,7 @@ package dev.satherov.utilityvest.client.input;
 
 import dev.satherov.utilityvest.client.screen.RadialMenuScreen;
 import dev.satherov.utilityvest.common.item.UVVestItem;
+import dev.satherov.utilityvest.common.item.UVVestReference;
 import dev.satherov.utilityvest.common.menu.UVVestMenu;
 import dev.satherov.utilityvest.core.lang.UVLanguage;
 import dev.satherov.utilityvest.network.OpenVestPayload;
@@ -38,29 +39,29 @@ public class UVKeybindManager {
         if (player == null) return;
         
         if (UVKeybindManager.RESTOCK.consumeClick()) {
-            PacketDistributor.sendToServer(new RestockPayload(player.isCrouching()));
+            UVVestReference.findFirstAccessible(player, false)
+                    .ifPresent(reference -> PacketDistributor.sendToServer(new RestockPayload(reference)));
             return;
         }
         
-        if (mc.screen == null && RADIAL_KEY.matches(event.getKey(), event.getScanCode())) {
+        if (mc.screen == null && UVKeybindManager.RADIAL_KEY.matches(event.getKey(), event.getScanCode())) {
             if (event.getAction() == GLFW.GLFW_PRESS) {
-                ItemStack stack = UVVestItem.getVest(player, true);
-                if (!stack.isEmpty() && stack.getItem() instanceof UVVestItem vest) {
-                    RadialMenuScreen screen = new RadialMenuScreen(stack, vest.getMaxBanks(), vest.getLastOpenRow());
-                    mc.setScreen(screen);
-                }
+                UVVestReference.findFirstAccessible(player, true).ifPresent(reference -> {
+                    ItemStack stack = reference.resolve(player);
+                    if (!stack.isEmpty() && stack.getItem() instanceof UVVestItem vest) {
+                        mc.setScreen(new RadialMenuScreen(stack, reference, vest.getMaxBanks(), vest.getLastOpenRow(stack)));
+                    }
+                });
             }
             return;
         }
         
-        if (GUI_KEY.consumeClick()) {
+        if (UVKeybindManager.GUI_KEY.consumeClick()) {
             if (player.containerMenu instanceof UVVestMenu) {
                 player.closeContainer();
             } else {
-                ItemStack stack = UVVestItem.getVest(player, true);
-                if (!stack.isEmpty() && stack.getItem() instanceof UVVestItem vest) {
-                    PacketDistributor.sendToServer(new OpenVestPayload(player.isCrouching(), vest.getMaxBanks()));
-                }
+                UVVestReference.findFirstAccessible(player, true)
+                        .ifPresent(reference -> PacketDistributor.sendToServer(new OpenVestPayload(player.isCrouching(), reference)));
             }
             return;
         }
@@ -68,7 +69,9 @@ public class UVKeybindManager {
         if (UVKeybindManager.SAVE.isDown()) {
             for (int row = 0; row < 5; row++) {
                 if (event.getKey() == GLFW.GLFW_KEY_1 + row && event.getAction() == GLFW.GLFW_PRESS) {
-                    PacketDistributor.sendToServer(new SaveLoadPayload(true, row));
+                    final int hotbarRow = row;
+                    UVVestReference.findFirstAccessible(player, false)
+                            .ifPresent(reference -> PacketDistributor.sendToServer(new SaveLoadPayload(true, hotbarRow, reference)));
                     return;
                 }
             }
@@ -77,11 +80,12 @@ public class UVKeybindManager {
         if (UVKeybindManager.LOAD.isDown()) {
             for (int row = 0; row < 5; row++) {
                 if (event.getKey() == GLFW.GLFW_KEY_1 + row && event.getAction() == GLFW.GLFW_PRESS) {
-                    PacketDistributor.sendToServer(new SaveLoadPayload(false, row));
+                    final int hotbarRow = row;
+                    UVVestReference.findFirstAccessible(player, false)
+                            .ifPresent(reference -> PacketDistributor.sendToServer(new SaveLoadPayload(false, hotbarRow, reference)));
                     return;
                 }
             }
         }
     }
 }
-

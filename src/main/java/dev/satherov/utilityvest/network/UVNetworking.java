@@ -1,6 +1,7 @@
 package dev.satherov.utilityvest.network;
 
 import dev.satherov.utilityvest.UtilityVest;
+import dev.satherov.utilityvest.common.item.UVVestReference;
 
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -23,8 +24,8 @@ public final class UVNetworking {
         registrar.playBidirectional(SwapToolPayload.TYPE, SwapToolPayload.STREAM_CODEC, SwapToolPayload.Handler::handle);
     }
     
-    public static void doSwap(Player player, boolean main, ItemStack vest, int idx) {
-        PacketDistributor.sendToServer(new SwapToolPayload(main, idx));
+    public static void doSwap(Player player, boolean main, UVVestReference vestReference, ItemStack vest, int idx) {
+        PacketDistributor.sendToServer(new SwapToolPayload(vestReference, main, idx));
         SwapToolPayload.Handler.execute(player, main, vest, idx);
     }
 }

@@ -2,7 +2,7 @@ package dev.satherov.utilityvest.common.menu;
 
 
 import dev.satherov.utilityvest.common.capabilities.UVVestCapability;
-import dev.satherov.utilityvest.common.item.UVVestItem;
+import dev.satherov.utilityvest.common.item.UVVestReference;
 import dev.satherov.utilityvest.core.annotations.NothingNull;
 
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -21,37 +21,38 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
+import org.jetbrains.annotations.Nullable;
+
 @NothingNull
 public abstract class UVVestMenu extends AbstractContainerMenu {
     
     protected final int rows;
-    protected UVVestCapability capability;
-    protected ItemStack vestStack;
+    protected final UVVestReference vestReference;
     
-    public UVVestMenu(MenuType<?> menuType, int containerId, Inventory inventory, int rows) {
+    public UVVestMenu(MenuType<?> menuType, int containerId, Inventory inventory, int rows, UVVestReference vestReference, @Nullable ItemStack fallbackVestStack) {
         super(menuType, containerId);
-        ItemStack stack = UVVestItem.getVest(inventory, true);
+        final Player player = inventory.player;
+        this.vestReference = vestReference;
+        
+        ItemStack stack = vestReference.resolve(player);
+        if (stack.isEmpty() && fallbackVestStack != null && !fallbackVestStack.isEmpty()) {
+            stack = fallbackVestStack;
+        }
         this.rows = rows;
         if (stack.isEmpty()) {
-            inventory.player.closeContainer();
-            return;
-        }
-        this.vestStack = stack;
-        
-        
-        IItemHandler handler = vestStack.getCapability(Capabilities.ItemHandler.ITEM);
-        if (handler == null) {
-            inventory.player.closeContainer();
+            player.closeContainer();
             return;
         }
         
-        if (handler instanceof UVVestCapability cap) {
-            this.capability = cap;
+        
+        IItemHandler handler = stack.getCapability(Capabilities.ItemHandler.ITEM);
+        if (!(handler instanceof UVVestCapability cap)) {
+            player.closeContainer();
+            return;
         }
         
         int yOffset = (rows - 4) * 18;
-        
-        addVestSlots(inventory, capability, yOffset);
+        this.addVestSlots(inventory, cap, yOffset);
     }
     
     protected void addVestSlots(Inventory inventory, UVVestCapability handler, int yOffset) {
@@ -71,13 +72,12 @@ public abstract class UVVestMenu extends AbstractContainerMenu {
     }
     
     public int getRows() {
-        return rows;
+        return this.rows;
     }
     
     @Override
     public boolean stillValid(Player player) {
-        if (UVVestItem.getVest(player, true).isEmpty()) return false;
-        return player.isAlive();
+        return player.isAlive() && !this.vestReference.resolve(player).isEmpty();
     }
     
     @Override

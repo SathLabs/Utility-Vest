@@ -2,6 +2,7 @@ package dev.satherov.utilityvest.network;
 
 import dev.satherov.utilityvest.UtilityVest;
 import dev.satherov.utilityvest.common.item.UVVestItem;
+import dev.satherov.utilityvest.common.item.UVVestReference;
 import dev.satherov.utilityvest.core.lang.UVLanguage;
 
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -13,7 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
-public record OpenVestPayload(boolean filter, int maxBanks) implements CustomPacketPayload {
+public record OpenVestPayload(boolean filter, UVVestReference vestReference) implements CustomPacketPayload {
     
     public static final StreamCodec<FriendlyByteBuf, OpenVestPayload> STREAM_CODEC =
             CustomPacketPayload.codec(OpenVestPayload::encode, OpenVestPayload::new);
@@ -23,17 +24,17 @@ public record OpenVestPayload(boolean filter, int maxBanks) implements CustomPac
     );
     
     private OpenVestPayload(FriendlyByteBuf buf) {
-        this(buf.readBoolean(), buf.readInt());
+        this(buf.readBoolean(), UVVestReference.read(buf));
     }
     
     public void encode(FriendlyByteBuf buf) {
         buf.writeBoolean(this.filter);
-        buf.writeInt(this.maxBanks);
+        this.vestReference.write(buf);
     }
     
     @Override
     public CustomPacketPayload.Type<? extends CustomPacketPayload> type() {
-        return TYPE;
+        return OpenVestPayload.TYPE;
     }
     
     public static class Handler {
@@ -43,13 +44,14 @@ public record OpenVestPayload(boolean filter, int maxBanks) implements CustomPac
                     return;
                 }
                 
-                ItemStack stack = UVVestItem.getVest(player, true);
+                ItemStack stack = msg.vestReference.resolve(player);
                 
                 if (!stack.isEmpty() && stack.getItem() instanceof UVVestItem vest) {
+                    UVVestReference boundReference = msg.vestReference.withVestId(UVVestItem.ensureVestId(stack));
                     if (msg.filter) {
-                        player.openMenu(vest.getFilterMenu());
+                        vest.openFilterMenu(player, boundReference, stack);
                     } else {
-                        player.openMenu(vest.getInventoryMenu());
+                        vest.openInventoryMenu(player, boundReference, stack);
                     }
                 }
                 
