@@ -61,10 +61,10 @@ public enum UVLanguage implements ILangEntry {
     
     @Override
     public String getTranslationKey() {
-        return key;
+        return this.key;
     }
     
     public String getEnglishTranslation() {
-        return value;
+        return this.value;
     }
 }

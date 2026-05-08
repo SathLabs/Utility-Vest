@@ -22,11 +22,11 @@ import org.lwjgl.glfw.GLFW;
 
 public class UVKeybindManager {
     
-    public static final KeyMapping GUI_KEY = register(UVLanguage.KEY_GUI, GLFW.GLFW_KEY_R);
-    public static final KeyMapping RADIAL_KEY = register(UVLanguage.KEY_RADIAL, GLFW.GLFW_KEY_G);
-    public static final KeyMapping RESTOCK = register(UVLanguage.KEY_RESTOCK, GLFW.GLFW_KEY_X);
-    public static final KeyMapping LOAD = register(UVLanguage.KEY_LOAD, GLFW.GLFW_KEY_LEFT_CONTROL);
-    public static final KeyMapping SAVE = register(UVLanguage.KEY_SAVE, GLFW.GLFW_KEY_LEFT_ALT);
+    public static final KeyMapping GUI_KEY = UVKeybindManager.register(UVLanguage.KEY_GUI, GLFW.GLFW_KEY_R);
+    public static final KeyMapping RADIAL_KEY = UVKeybindManager.register(UVLanguage.KEY_RADIAL, GLFW.GLFW_KEY_G);
+    public static final KeyMapping RESTOCK = UVKeybindManager.register(UVLanguage.KEY_RESTOCK, GLFW.GLFW_KEY_X);
+    public static final KeyMapping LOAD = UVKeybindManager.register(UVLanguage.KEY_LOAD, GLFW.GLFW_KEY_LEFT_CONTROL);
+    public static final KeyMapping SAVE = UVKeybindManager.register(UVLanguage.KEY_SAVE, GLFW.GLFW_KEY_LEFT_ALT);
     
     private static KeyMapping register(UVLanguage key, int keyCode) {
         return new KeyMapping(key.getTranslationKey(), keyCode, UVLanguage.KEY_CATEGORY.getTranslationKey());

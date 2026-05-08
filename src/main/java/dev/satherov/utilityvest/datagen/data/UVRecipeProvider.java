@@ -32,7 +32,7 @@ public class UVRecipeProvider extends RecipeProvider {
                 .define('a', Tags.Items.LEATHERS)
                 .define('b', Tags.Items.CHESTS)
                 .define('c', tag)
-                .unlockedBy(String.format("has_%s", tag.location().getPath()), has(tag))
+                .unlockedBy(String.format("has_%s", tag.location().getPath()), RecipeProvider.has(tag))
                 .save(recipeOutput, vest.getId());
     }
     
@@ -43,7 +43,7 @@ public class UVRecipeProvider extends RecipeProvider {
                 .pattern(" a ")
                 .define('a', tag)
                 .define('b', before.get())
-                .unlockedBy(String.format("has_%s", before.getId().getPath()), has(before.get()))
+                .unlockedBy(String.format("has_%s", before.getId().getPath()), RecipeProvider.has(before.get()))
                 .save(recipeOutput, vest.getId());
     }
     

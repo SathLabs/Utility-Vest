@@ -17,7 +17,7 @@ public class UVItemModelProvider extends ItemModelProvider {
     @Override
     protected void registerModels() {
         UVRegistry.ITEMS.getEntries().stream().toList().forEach(item -> {
-            singleTexture(item.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/" + item.getId().getPath()));
+            this.singleTexture(item.getId().getPath(), this.mcLoc("item/generated"), "layer0", this.modLoc("item/" + item.getId().getPath()));
         });
     }
 }

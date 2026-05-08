@@ -51,16 +51,6 @@ public class UVShapedRecipe extends ShapedRecipe {
                 UVShapedRecipe.Serializer::toNetwork, UVShapedRecipe.Serializer::fromNetwork
         );
         
-        @Override
-        public MapCodec<UVShapedRecipe> codec() {
-            return CODEC;
-        }
-        
-        @Override
-        public StreamCodec<RegistryFriendlyByteBuf, UVShapedRecipe> streamCodec() {
-            return STREAM_CODEC;
-        }
-        
         private static UVShapedRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
             String s = buffer.readUtf();
             CraftingBookCategory craftingbookcategory = buffer.readEnum(CraftingBookCategory.class);
@@ -76,6 +66,16 @@ public class UVShapedRecipe extends ShapedRecipe {
             ShapedRecipePattern.STREAM_CODEC.encode(buffer, recipe.pattern);
             ItemStack.STREAM_CODEC.encode(buffer, recipe.getResultItem(null));
             buffer.writeBoolean(recipe.showNotification());
+        }
+        
+        @Override
+        public MapCodec<UVShapedRecipe> codec() {
+            return Serializer.CODEC;
+        }
+        
+        @Override
+        public StreamCodec<RegistryFriendlyByteBuf, UVShapedRecipe> streamCodec() {
+            return Serializer.STREAM_CODEC;
         }
     }
 }

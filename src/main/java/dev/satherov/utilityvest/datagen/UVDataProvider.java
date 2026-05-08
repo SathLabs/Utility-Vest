@@ -15,13 +15,13 @@ public class UVDataProvider implements DataProvider {
     private final List<DataProvider> subProviders = new ArrayList<>();
     
     public void addSubProvider(boolean include, DataProvider provider) {
-        if (include) subProviders.add(provider);
+        if (include) this.subProviders.add(provider);
     }
     
     @Override
     public CompletableFuture<?> run(CachedOutput cachedOutput) {
         List<CompletableFuture<?>> list = new ArrayList<>();
-        for (DataProvider provider : subProviders) list.add(provider.run(cachedOutput));
+        for (DataProvider provider : this.subProviders) list.add(provider.run(cachedOutput));
         return CompletableFuture.allOf(list.toArray(CompletableFuture[]::new));
     }
     

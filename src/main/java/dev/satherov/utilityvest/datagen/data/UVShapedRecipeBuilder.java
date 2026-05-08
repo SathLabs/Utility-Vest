@@ -29,7 +29,7 @@ public class UVShapedRecipeBuilder extends ShapedRecipeBuilder {
     }
     
     public static UVShapedRecipeBuilder shaped(RecipeCategory category, ItemLike result) {
-        return shaped(category, result, 1);
+        return UVShapedRecipeBuilder.shaped(category, result, 1);
     }
     
     public static UVShapedRecipeBuilder shaped(RecipeCategory category, ItemLike result, int count) {

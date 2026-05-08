@@ -19,11 +19,11 @@ public class UVLanguageProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         for (UVLanguage lang : UVLanguage.values()) {
-            add(lang.getTranslationKey(), lang.getEnglishTranslation());
+            this.add(lang.getTranslationKey(), lang.getEnglishTranslation());
         }
         
         for (DeferredHolder<Item, ? extends Item> holder : UVRegistry.ITEMS.getEntries()) {
-            add(holder.get(), this.format(holder.getId().getPath()));
+            this.add(holder.get(), this.format(holder.getId().getPath()));
         }
     }
     

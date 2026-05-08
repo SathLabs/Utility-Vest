@@ -40,7 +40,7 @@ public class UtilityVest {
     private static final ConfigLoader CONFIG = ConfigLoader.create();
     
     public UtilityVest(IEventBus bus, FMLModContainer container) {
-        CONFIG.discover(container);
+        UtilityVest.CONFIG.discover(container);
         
         bus.addListener(UVNetworking::registerPayload);
         
@@ -67,11 +67,11 @@ public class UtilityVest {
     }
     
     public void onConfigLoad(final ModConfigEvent.Loading event) {
-        CONFIG.update(event.getConfig().getSpec());
+        UtilityVest.CONFIG.update(event.getConfig().getSpec());
     }
     
     public void onConfigReload(final ModConfigEvent.Reloading event) {
-        CONFIG.update(event.getConfig().getSpec());
+        UtilityVest.CONFIG.update(event.getConfig().getSpec());
     }
     
     public void registerCapabilities(final RegisterCapabilitiesEvent event) {

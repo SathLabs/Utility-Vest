@@ -9,14 +9,14 @@ public interface ILangEntry {
     String getTranslationKey();
     
     default MutableComponent translate() {
-        return Component.translatable(getTranslationKey());
+        return Component.translatable(this.getTranslationKey());
     }
     
     default MutableComponent translate(Object... args) {
-        return Component.translatable(getTranslationKey(), args);
+        return Component.translatable(this.getTranslationKey(), args);
     }
     
     default MutableComponent translateFormatted(ChatFormatting... formats) {
-        return Component.translatable(getTranslationKey()).withStyle(formats);
+        return Component.translatable(this.getTranslationKey()).withStyle(formats);
     }
 }

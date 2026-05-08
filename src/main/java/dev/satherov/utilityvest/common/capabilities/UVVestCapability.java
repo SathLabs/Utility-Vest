@@ -33,43 +33,43 @@ public class UVVestCapability implements IItemHandlerModifiable {
     
     @Override
     public int getSlots() {
-        return storage.getSlots();
+        return this.storage.getSlots();
     }
     
     @Override
     public void setStackInSlot(int slot, ItemStack stack) {
-        storage.setStackInSlot(slot, stack);
+        this.storage.setStackInSlot(slot, stack);
     }
     
     @Override
     public ItemStack getStackInSlot(int slot) {
-        return storage.getStackInSlot(slot);
+        return this.storage.getStackInSlot(slot);
     }
     
     @Override
     public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-        return storage.insertItem(slot, stack, simulate);
+        return this.storage.insertItem(slot, stack, simulate);
     }
     
     @Override
     public ItemStack extractItem(int slot, int amount, boolean simulate) {
-        return storage.extractItem(slot, amount, simulate);
+        return this.storage.extractItem(slot, amount, simulate);
     }
     
     @Override
     public int getSlotLimit(int slot) {
-        return storage.getSlotLimit(slot);
+        return this.storage.getSlotLimit(slot);
     }
     
     @Override
     public boolean isItemValid(int slot, ItemStack stack) {
-        return storage.isItemValid(slot, stack);
+        return this.storage.isItemValid(slot, stack);
     }
     
     public void saveHotbar(Player player, int index) {
-        NonNullList<ItemStack> hotbar = getHotbar(player.getInventory());
+        NonNullList<ItemStack> hotbar = this.getHotbar(player.getInventory());
         for (int i = 0; i < 9; i++) {
-            filters.setStackInSlot(i + index * 9, hotbar.get(i).copy());
+            this.filters.setStackInSlot(i + index * 9, hotbar.get(i).copy());
         }
         
         player.inventoryMenu.broadcastChanges();
@@ -80,12 +80,12 @@ public class UVVestCapability implements IItemHandlerModifiable {
     }
     
     public void loadHotbar(Player player, int index) {
-        NonNullList<ItemStack> hotbar = getHotbar(player.getInventory());
+        NonNullList<ItemStack> hotbar = this.getHotbar(player.getInventory());
         List<ItemStack> itemsToReturn = new ArrayList<>();
         
         for (ItemStack stack : hotbar) {
-            if (matchFilter(stack)) {
-                ItemStack overflow = insertWithOverflow(stack);
+            if (this.matchFilter(stack)) {
+                ItemStack overflow = this.insertWithOverflow(stack);
                 if (!overflow.isEmpty()) {
                     itemsToReturn.add(overflow);
                 }
@@ -99,9 +99,9 @@ public class UVVestCapability implements IItemHandlerModifiable {
         }
         
         int slot = 0;
-        for (ItemStack stack : getFilters(index)) {
+        for (ItemStack stack : this.getFilters(index)) {
             if (!stack.isEmpty()) {
-                player.getInventory().setItem(slot, buildStackFromItems(stack, new ContainerItemHandler(this)));
+                player.getInventory().setItem(slot, this.buildStackFromItems(stack, new ContainerItemHandler(this)));
             }
             slot++;
         }
@@ -155,8 +155,8 @@ public class UVVestCapability implements IItemHandlerModifiable {
     
     public ItemStack swap(ItemStack stack, int idx) {
         if (idx == -1) {
-            for (int i = 0; i < storage.getSlots(); i++) {
-                ItemStack inSlot = storage.getStackInSlot(i);
+            for (int i = 0; i < this.storage.getSlots(); i++) {
+                ItemStack inSlot = this.storage.getStackInSlot(i);
                 if (inSlot.isEmpty()) {
                     idx = i;
                     break;
@@ -164,8 +164,8 @@ public class UVVestCapability implements IItemHandlerModifiable {
             }
         }
         if (idx == -1) return stack;
-        ItemStack result = storage.getStackInSlot(idx);
-        storage.setStackInSlot(idx, stack);
+        ItemStack result = this.storage.getStackInSlot(idx);
+        this.storage.setStackInSlot(idx, stack);
         return result;
     }
     
@@ -175,16 +175,16 @@ public class UVVestCapability implements IItemHandlerModifiable {
             ItemStack stack = inv.getItem(i);
             if (stack.isEmpty()) continue;
             
-            if (matchFilter(stack)) {
-                inv.setItem(i, insertWithOverflow(stack));
+            if (this.matchFilter(stack)) {
+                inv.setItem(i, this.insertWithOverflow(stack));
             }
         }
         for (int i = 0; i < inv.offhand.size(); i++) {
             ItemStack stack = inv.getItem(i);
             if (stack.isEmpty()) continue;
             
-            if (matchFilter(stack)) {
-                inv.setItem(i, insertWithOverflow(stack));
+            if (this.matchFilter(stack)) {
+                inv.setItem(i, this.insertWithOverflow(stack));
             }
         }
         player.displayClientMessage(UVLanguage.CHAT_RESTOCKED.translate().withStyle(ChatFormatting.GRAY), true);
@@ -197,8 +197,8 @@ public class UVVestCapability implements IItemHandlerModifiable {
     }
     
     public NonNullList<ItemStack> getFilters() {
-        NonNullList<ItemStack> contents = NonNullList.withSize(filters.getSlots(), ItemStack.EMPTY);
-        for (int i = 0; i < filters.getSlots(); i++) {
+        NonNullList<ItemStack> contents = NonNullList.withSize(this.filters.getSlots(), ItemStack.EMPTY);
+        for (int i = 0; i < this.filters.getSlots(); i++) {
             contents.set(i, this.filters.getStackInSlot(i));
         }
         
@@ -211,8 +211,8 @@ public class UVVestCapability implements IItemHandlerModifiable {
         int startIndex = index * 9;
         
         for (int i = 0; i < 9; i++) {
-            if (startIndex + i < filters.getSlots()) {
-                results.set(i, filters.getStackInSlot(startIndex + i));
+            if (startIndex + i < this.filters.getSlots()) {
+                results.set(i, this.filters.getStackInSlot(startIndex + i));
             }
         }
         
@@ -220,13 +220,13 @@ public class UVVestCapability implements IItemHandlerModifiable {
     }
     
     public NonNullList<ItemStack> getStorage() {
-        NonNullList<ItemStack> contents = NonNullList.withSize(storage.getSlots(), ItemStack.EMPTY);
-        for (int i = 0; i < storage.getSlots(); i++) {
+        NonNullList<ItemStack> contents = NonNullList.withSize(this.storage.getSlots(), ItemStack.EMPTY);
+        for (int i = 0; i < this.storage.getSlots(); i++) {
             contents.set(i, this.storage.getStackInSlot(i));
         }
         
         if (contents.isEmpty()) {
-            return NonNullList.withSize(storage.getSlots(), ItemStack.EMPTY);
+            return NonNullList.withSize(this.storage.getSlots(), ItemStack.EMPTY);
         }
         return NonNullList.of(ItemStack.EMPTY, contents.toArray(ItemStack[]::new));
     }
@@ -236,8 +236,8 @@ public class UVVestCapability implements IItemHandlerModifiable {
         int startIndex = index * 9;
         
         for (int i = 0; i < 9; i++) {
-            if (startIndex + i < storage.getSlots()) {
-                results.set(i, storage.getStackInSlot(startIndex + i));
+            if (startIndex + i < this.storage.getSlots()) {
+                results.set(i, this.storage.getStackInSlot(startIndex + i));
             }
         }
         
@@ -246,7 +246,7 @@ public class UVVestCapability implements IItemHandlerModifiable {
     
     public boolean matchFilter(ItemStack stack) {
         if (stack.is(UVRegistry.UTILITY_VEST_TAG)) return false;
-        var filtersList = getFilters();
+        var filtersList = this.getFilters();
         if (filtersList.stream().allMatch(ItemStack::isEmpty)) return true;
         return filtersList.stream().anyMatch(f -> ItemStack.isSameItem(f, stack));
     }
@@ -316,17 +316,17 @@ public class UVVestCapability implements IItemHandlerModifiable {
         
         @Override
         public int getSize() {
-            return container.getSlots();
+            return this.container.getSlots();
         }
         
         @Override
         public ItemStack getStackInSlot(int slot) {
-            return container.getStackInSlot(slot);
+            return this.container.getStackInSlot(slot);
         }
         
         @Override
         public int extractItem(int slot, int amount) {
-            return container.extractItem(slot, amount, false).getCount();
+            return this.container.extractItem(slot, amount, false).getCount();
         }
     }
     
@@ -334,17 +334,17 @@ public class UVVestCapability implements IItemHandlerModifiable {
         
         @Override
         public int getSize() {
-            return inventory.getContainerSize();
+            return this.inventory.getContainerSize();
         }
         
         @Override
         public ItemStack getStackInSlot(int slot) {
-            return inventory.getItem(slot);
+            return this.inventory.getItem(slot);
         }
         
         @Override
         public int extractItem(int slot, int amount) {
-            return inventory.removeItem(slot, amount).getCount();
+            return this.inventory.removeItem(slot, amount).getCount();
         }
     }
 }
