@@ -6,6 +6,7 @@ import dev.satherov.utilityvest.common.item.UVVestItem;
 import dev.satherov.utilityvest.core.annotations.NothingNull;
 
 import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
@@ -81,13 +82,31 @@ public abstract class UVVestMenu extends AbstractContainerMenu {
     
     @Override
     public void clicked(int slotId, int button, ClickType clickType, Player player) {
-        if (slotId >= 0 && slotId < (this.rows * 9)) {
+        if (clickType == ClickType.PICKUP && slotId >= 0 && slotId < (this.rows * 9)) {
             final Slot slot = this.slots.get(slotId);
-            ClickAction action = button == 0 ? ClickAction.PRIMARY : ClickAction.SECONDARY;
+            final ClickAction action = button == 0 ? ClickAction.PRIMARY : ClickAction.SECONDARY;
             final ItemStack stack = slot.getItem();
             final ItemStack carried = this.getCarried();
+            final SlotAccess carriedAccess = this.createAccess();
             
-            if (stack.overrideStackedOnOther(slot, action, player) || stack.overrideOtherStackedOnMe(carried, slot, action, player, this.createAccess())) return;
+            if (CommonHooks.onItemStackedOn(carried, stack, slot, action, player, carriedAccess)) {
+                slot.setChanged();
+                this.broadcastChanges();
+                return;
+            }
+            
+            if (!carried.isEmpty() && carried.overrideStackedOnOther(slot, action, player)) {
+                slot.setChanged();
+                this.broadcastChanges();
+                return;
+            }
+            
+            if (!stack.isEmpty() && stack.overrideOtherStackedOnMe(carried, slot, action, player, carriedAccess)) {
+                slot.set(stack.copy());
+                slot.setChanged();
+                this.broadcastChanges();
+                return;
+            }
         }
         
         super.clicked(slotId, button, clickType, player);
