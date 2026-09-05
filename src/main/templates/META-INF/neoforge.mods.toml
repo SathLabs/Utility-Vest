@@ -34,3 +34,10 @@ type = "required"
 versionRange = "[9.2.0+1.21.1,)"
 ordering = "NONE"
 side = "BOTH"
+
+[[dependencies.${ mod_id }]]
+modId = "allthemodium"
+type = "optional"
+versionRange = "[0,)"
+ordering = "NONE"
+side = "BOTH"

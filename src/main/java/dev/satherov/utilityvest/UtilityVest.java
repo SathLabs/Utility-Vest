@@ -103,12 +103,18 @@ public class UtilityVest {
             event.register(UVRegistry.INVENTORY_MENU_THREE.get(), UVInventoryScreen::new);
             event.register(UVRegistry.INVENTORY_MENU_FOUR.get(), UVInventoryScreen::new);
             event.register(UVRegistry.INVENTORY_MENU_FIVE.get(), UVInventoryScreen::new);
-            
+            event.register(UVRegistry.INVENTORY_MENU_SIX.get(), UVInventoryScreen::new);
+            event.register(UVRegistry.INVENTORY_MENU_SEVEN.get(), UVInventoryScreen::new);
+            event.register(UVRegistry.INVENTORY_MENU_EIGHT.get(), UVInventoryScreen::new);
+
             event.register(UVRegistry.FILTER_MENU_ONE.get(), UVFilterScreen::new);
             event.register(UVRegistry.FILTER_MENU_TWO.get(), UVFilterScreen::new);
             event.register(UVRegistry.FILTER_MENU_THREE.get(), UVFilterScreen::new);
             event.register(UVRegistry.FILTER_MENU_FOUR.get(), UVFilterScreen::new);
             event.register(UVRegistry.FILTER_MENU_FIVE.get(), UVFilterScreen::new);
+            event.register(UVRegistry.FILTER_MENU_SIX.get(), UVFilterScreen::new);
+            event.register(UVRegistry.FILTER_MENU_SEVEN.get(), UVFilterScreen::new);
+            event.register(UVRegistry.FILTER_MENU_EIGHT.get(), UVFilterScreen::new);
         }
         
         public static void registerKeys(final RegisterKeyMappingsEvent event) {

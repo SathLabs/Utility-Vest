@@ -1,10 +1,13 @@
-// 1.21.1	2026-03-03T15:18:10.603762048	Utility Vest Data Provider
-36a690ad76f0dd755f501a1e01325656bb61defe assets/utilityvest/lang/en_us.json
+// 1.21.1	2026-09-05T13:09:57.6392768	Utility Vest Data Provider
+3831f6fd75e0a2d8e233bd7738747bc13d8937a4 assets/utilityvest/lang/en_us.json
+5dd5f9f2eec30654c14e238815f3fa0941641baf assets/utilityvest/models/item/allthemodium_utility_vest.json
 def49994fc9441e21b5785fc0b0b80047b4451e8 assets/utilityvest/models/item/diamond_utility_vest.json
 94fbfb1496984d08cec6a2e9cdfd56d6d3c140dc assets/utilityvest/models/item/gold_utility_vest.json
 bb9c0c3956b00d0290a12ecc42c233f57e471c5f assets/utilityvest/models/item/iron_utility_vest.json
 3e6906b094863a8463c44ca8439fb4dbc551fdef assets/utilityvest/models/item/leather_utility_vest.json
 41b6f67ec18ac2f6178997c1f93f60caf20a13ce assets/utilityvest/models/item/netherite_utility_vest.json
+35975a00014b3cf0eee7e8945528bfb0adab2d9d assets/utilityvest/models/item/unobtainium_utility_vest.json
+a32133a511fbd8f08319a64323d004b7a9f9a90f assets/utilityvest/models/item/vibranium_utility_vest.json
 e31bbc21076df85702887132fba35037ec75c341 data/utilityvest/advancement/recipes/misc/diamond_utility_vest.json
 9f0d5000f56868423b403d9103571765898a1cf3 data/utilityvest/advancement/recipes/misc/gold_utility_vest.json
 80dc69d0ee6d99cacc9d344cd993aceb0933eadb data/utilityvest/advancement/recipes/misc/iron_utility_vest.json
@@ -15,4 +18,4 @@ fbedd17894159f9671555c2ae076e212940f9451 data/utilityvest/advancement/recipes/mi
 12bc0a0a9b67e9dd28f5de52734308ab2d38ea4f data/utilityvest/recipe/iron_utility_vest.json
 a2de609dbcff4b31cd425ffb6f68d6f424230d92 data/utilityvest/recipe/leather_utility_vest.json
 f77585f493f23e359433a630ecdcb2ff6ef295ba data/utilityvest/recipe/netherite_utility_vest.json
-10895d732fe91b28b97d95b80cf4c37cd8dbc2f5 data/utilityvest/tags/item/utility_vest.json
+d26495e8314b7b1bd21245d2d48821de322cf0e5 data/utilityvest/tags/item/utility_vest.json

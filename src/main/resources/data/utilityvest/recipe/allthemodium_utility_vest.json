@@ -1,0 +1,22 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "allthemodium"
+    }
+  ],
+  "type": "utilityvest:smithing_upgrade",
+  "template": {
+    "item": "allthemodium:allthemodium_upgrade_smithing_template"
+  },
+  "base": {
+    "item": "utilityvest:netherite_utility_vest"
+  },
+  "addition": {
+    "tag": "c:ingots/allthemodium"
+  },
+  "result": {
+    "count": 1,
+    "id": "utilityvest:allthemodium_utility_vest"
+  }
+}

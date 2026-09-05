@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "utilityvest:item/vibranium_utility_vest"
+  }
+}

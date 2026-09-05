@@ -5,6 +5,7 @@ import dev.satherov.utilityvest.common.item.UVVestItem;
 import dev.satherov.utilityvest.common.menu.UVFilterMenu;
 import dev.satherov.utilityvest.common.menu.UVInventoryMenu;
 import dev.satherov.utilityvest.datagen.data.UVShapedRecipe;
+import dev.satherov.utilityvest.datagen.data.UVSmithingRecipe;
 
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -42,6 +43,9 @@ public class UVRegistry {
     public static final DeferredHolder<Item, UVVestItem> GOLD_UTILITY_VEST = UVRegistry.ITEMS.register("gold_utility_vest", () -> new UVVestItem(new Item.Properties(), 3));
     public static final DeferredHolder<Item, UVVestItem> DIAMOND_UTILITY_VEST = UVRegistry.ITEMS.register("diamond_utility_vest", () -> new UVVestItem(new Item.Properties(), 4));
     public static final DeferredHolder<Item, UVVestItem> NETHERITE_UTILITY_VEST = UVRegistry.ITEMS.register("netherite_utility_vest", () -> new UVVestItem(new Item.Properties().fireResistant(), 5));
+    public static final DeferredHolder<Item, UVVestItem> ALLTHEMODIUM_UTILITY_VEST = UVRegistry.ITEMS.register("allthemodium_utility_vest", () -> new UVVestItem(new Item.Properties().fireResistant(), 6));
+    public static final DeferredHolder<Item, UVVestItem> VIBRANIUM_UTILITY_VEST = UVRegistry.ITEMS.register("vibranium_utility_vest", () -> new UVVestItem(new Item.Properties().fireResistant(), 7));
+    public static final DeferredHolder<Item, UVVestItem> UNOBTAINIUM_UTILITY_VEST = UVRegistry.ITEMS.register("unobtainium_utility_vest", () -> new UVVestItem(new Item.Properties().fireResistant(), 8));
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> CREATIVE_TAB = UVRegistry.CREATIVE_MODE_TABS.register("utilityvest", () ->
             CreativeModeTab.builder()
                     .title(Component.translatable(String.format("itemGroup.%s", UtilityVest.MOD_ID)))
@@ -59,12 +63,18 @@ public class UVRegistry {
     public static final DeferredHolder<MenuType<?>, MenuType<UVInventoryMenu>> INVENTORY_MENU_THREE = UVRegistry.MENU_TYPES.register("inventory_menu_three", () -> IMenuTypeExtension.create((id, inv, data) -> new UVInventoryMenu(id, inv, data, 3)));
     public static final DeferredHolder<MenuType<?>, MenuType<UVInventoryMenu>> INVENTORY_MENU_FOUR = UVRegistry.MENU_TYPES.register("inventory_menu_four", () -> IMenuTypeExtension.create((id, inv, data) -> new UVInventoryMenu(id, inv, data, 4)));
     public static final DeferredHolder<MenuType<?>, MenuType<UVInventoryMenu>> INVENTORY_MENU_FIVE = UVRegistry.MENU_TYPES.register("inventory_menu_five", () -> IMenuTypeExtension.create((id, inv, data) -> new UVInventoryMenu(id, inv, data, 5)));
-    
+    public static final DeferredHolder<MenuType<?>, MenuType<UVInventoryMenu>> INVENTORY_MENU_SIX = UVRegistry.MENU_TYPES.register("inventory_menu_six", () -> IMenuTypeExtension.create((id, inv, data) -> new UVInventoryMenu(id, inv, data, 6)));
+    public static final DeferredHolder<MenuType<?>, MenuType<UVInventoryMenu>> INVENTORY_MENU_SEVEN = UVRegistry.MENU_TYPES.register("inventory_menu_seven", () -> IMenuTypeExtension.create((id, inv, data) -> new UVInventoryMenu(id, inv, data, 7)));
+    public static final DeferredHolder<MenuType<?>, MenuType<UVInventoryMenu>> INVENTORY_MENU_EIGHT = UVRegistry.MENU_TYPES.register("inventory_menu_eight", () -> IMenuTypeExtension.create((id, inv, data) -> new UVInventoryMenu(id, inv, data, 8)));
+
     public static final DeferredHolder<MenuType<?>, MenuType<UVFilterMenu>> FILTER_MENU_ONE = UVRegistry.MENU_TYPES.register("filter_menu_one", () -> IMenuTypeExtension.create((id, inv, data) -> new UVFilterMenu(id, inv, data, 1)));
     public static final DeferredHolder<MenuType<?>, MenuType<UVFilterMenu>> FILTER_MENU_TWO = UVRegistry.MENU_TYPES.register("filter_menu_two", () -> IMenuTypeExtension.create((id, inv, data) -> new UVFilterMenu(id, inv, data, 2)));
     public static final DeferredHolder<MenuType<?>, MenuType<UVFilterMenu>> FILTER_MENU_THREE = UVRegistry.MENU_TYPES.register("filter_menu_three", () -> IMenuTypeExtension.create((id, inv, data) -> new UVFilterMenu(id, inv, data, 3)));
     public static final DeferredHolder<MenuType<?>, MenuType<UVFilterMenu>> FILTER_MENU_FOUR = UVRegistry.MENU_TYPES.register("filter_menu_four", () -> IMenuTypeExtension.create((id, inv, data) -> new UVFilterMenu(id, inv, data, 4)));
     public static final DeferredHolder<MenuType<?>, MenuType<UVFilterMenu>> FILTER_MENU_FIVE = UVRegistry.MENU_TYPES.register("filter_menu_five", () -> IMenuTypeExtension.create((id, inv, data) -> new UVFilterMenu(id, inv, data, 5)));
+    public static final DeferredHolder<MenuType<?>, MenuType<UVFilterMenu>> FILTER_MENU_SIX = UVRegistry.MENU_TYPES.register("filter_menu_six", () -> IMenuTypeExtension.create((id, inv, data) -> new UVFilterMenu(id, inv, data, 6)));
+    public static final DeferredHolder<MenuType<?>, MenuType<UVFilterMenu>> FILTER_MENU_SEVEN = UVRegistry.MENU_TYPES.register("filter_menu_seven", () -> IMenuTypeExtension.create((id, inv, data) -> new UVFilterMenu(id, inv, data, 7)));
+    public static final DeferredHolder<MenuType<?>, MenuType<UVFilterMenu>> FILTER_MENU_EIGHT = UVRegistry.MENU_TYPES.register("filter_menu_eight", () -> IMenuTypeExtension.create((id, inv, data) -> new UVFilterMenu(id, inv, data, 8)));
     
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ItemContainerContents>> VEST_INVENTORY = UVRegistry.DATA_COMPONENT_TYPES.register("vest_inventory", () ->
             DataComponentType.<ItemContainerContents>builder()
@@ -102,4 +112,5 @@ public class UVRegistry {
     );
     
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<UVShapedRecipe>> UPGRADE_SERIALIZER = UVRegistry.RECIPE_SERIALIZERS.register("upgrade", UVShapedRecipe.Serializer::new);
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<UVSmithingRecipe>> UPGRADE_SMITHING_SERIALIZER = UVRegistry.RECIPE_SERIALIZERS.register("smithing_upgrade", UVSmithingRecipe.Serializer::new);
 }

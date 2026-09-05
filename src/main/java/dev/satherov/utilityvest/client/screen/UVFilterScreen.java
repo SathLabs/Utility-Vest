@@ -48,7 +48,13 @@ public class UVFilterScreen extends AbstractContainerScreen<UVFilterMenu> implem
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
-        guiGraphics.blit(UVFilterScreen.CONTAINER_BACKGROUND, i, j, 0, 0, this.imageWidth, this.containerRows * 18 + 17);
+
+        // generic_54.png only has real row artwork for 6 rows (v=0-125); beyond that we tile the
+        // single-row strip (v=17-35) instead of reading further down into the player-inventory artwork.
+        guiGraphics.blit(UVFilterScreen.CONTAINER_BACKGROUND, i, j, 0, 0, this.imageWidth, 17);
+        for (int row = 0; row < this.containerRows; row++) {
+            guiGraphics.blit(UVFilterScreen.CONTAINER_BACKGROUND, i, j + 17 + row * 18, 0, 17, this.imageWidth, 18);
+        }
         guiGraphics.blit(UVFilterScreen.CONTAINER_BACKGROUND, i, j + this.containerRows * 18 + 17, 0, 126, this.imageWidth, 96);
     }
 }

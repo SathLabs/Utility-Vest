@@ -67,7 +67,7 @@ public class UVKeybindManager {
         }
         
         if (UVKeybindManager.SAVE.isDown()) {
-            for (int row = 0; row < 5; row++) {
+            for (int row = 0; row < 9; row++) {
                 if (event.getKey() == GLFW.GLFW_KEY_1 + row && event.getAction() == GLFW.GLFW_PRESS) {
                     final int hotbarRow = row;
                     UVVestReference.findFirstAccessible(player, false)
@@ -78,7 +78,7 @@ public class UVKeybindManager {
         }
         
         if (UVKeybindManager.LOAD.isDown()) {
-            for (int row = 0; row < 5; row++) {
+            for (int row = 0; row < 9; row++) {
                 if (event.getKey() == GLFW.GLFW_KEY_1 + row && event.getAction() == GLFW.GLFW_PRESS) {
                     final int hotbarRow = row;
                     UVVestReference.findFirstAccessible(player, false)

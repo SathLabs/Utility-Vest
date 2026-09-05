@@ -19,7 +19,7 @@ import java.util.concurrent.CompletableFuture;
 
 @NothingNull
 public class UVRecipeProvider extends RecipeProvider {
-    
+
     public UVRecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         super(output, registries);
     }
@@ -49,11 +49,18 @@ public class UVRecipeProvider extends RecipeProvider {
     
     @Override
     protected void buildRecipes(RecipeOutput recipeOutput) {
-        
+
         this.vest(recipeOutput, UVRegistry.LEATHER_UTILITY_VEST, Tags.Items.LEATHERS);
         this.upgrade(recipeOutput, UVRegistry.IRON_UTILITY_VEST, Tags.Items.INGOTS_IRON, UVRegistry.LEATHER_UTILITY_VEST);
         this.upgrade(recipeOutput, UVRegistry.GOLD_UTILITY_VEST, Tags.Items.INGOTS_GOLD, UVRegistry.IRON_UTILITY_VEST);
         this.upgrade(recipeOutput, UVRegistry.DIAMOND_UTILITY_VEST, Tags.Items.GEMS_DIAMOND, UVRegistry.GOLD_UTILITY_VEST);
         this.upgrade(recipeOutput, UVRegistry.NETHERITE_UTILITY_VEST, Tags.Items.INGOTS_NETHERITE, UVRegistry.DIAMOND_UTILITY_VEST);
+
+        // The allthemodium/vibranium/unobtainium smithing upgrades are hand-authored in
+        // src/generated/resources/data/utilityvest/recipe, not generated here: they need real item ids
+        // from the optional Allthemodium mod, which pulls in GeckoLib and isn't something we want as a
+        // build-time dependency just to bake three recipe files. They use the utilityvest:smithing_upgrade
+        // serializer (see UVSmithingRecipe) and are wrapped in a neoforge:mod_loaded("allthemodium")
+        // condition, so they're skipped entirely - ingredients included - unless that mod is present.
     }
 }
