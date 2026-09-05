@@ -4,6 +4,9 @@
     "utilityvest:iron_utility_vest",
     "utilityvest:gold_utility_vest",
     "utilityvest:diamond_utility_vest",
-    "utilityvest:netherite_utility_vest"
+    "utilityvest:netherite_utility_vest",
+    "utilityvest:allthemodium_utility_vest",
+    "utilityvest:vibranium_utility_vest",
+    "utilityvest:unobtainium_utility_vest"
   ]
 }

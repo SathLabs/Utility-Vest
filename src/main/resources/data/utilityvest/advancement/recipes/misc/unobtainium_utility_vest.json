@@ -1,0 +1,38 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "allthemodium"
+    }
+  ],
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "utilityvest:unobtainium_utility_vest"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_vibranium_utility_vest": {
+      "conditions": {
+        "items": [
+          {
+            "items": "utilityvest:vibranium_utility_vest"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_vibranium_utility_vest"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "utilityvest:unobtainium_utility_vest"
+    ]
+  }
+}

@@ -21,6 +21,9 @@ public class UVItemTagsProvider extends ItemTagsProvider {
                 .add(UVRegistry.IRON_UTILITY_VEST.get())
                 .add(UVRegistry.GOLD_UTILITY_VEST.get())
                 .add(UVRegistry.DIAMOND_UTILITY_VEST.get())
-                .add(UVRegistry.NETHERITE_UTILITY_VEST.get());
+                .add(UVRegistry.NETHERITE_UTILITY_VEST.get())
+                .add(UVRegistry.ALLTHEMODIUM_UTILITY_VEST.get())
+                .add(UVRegistry.VIBRANIUM_UTILITY_VEST.get())
+                .add(UVRegistry.UNOBTAINIUM_UTILITY_VEST.get());
     }
 }

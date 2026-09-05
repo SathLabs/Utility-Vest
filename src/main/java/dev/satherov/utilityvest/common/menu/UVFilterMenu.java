@@ -44,6 +44,9 @@ public class UVFilterMenu extends UVVestMenu {
             case 3 -> UVRegistry.FILTER_MENU_THREE.get();
             case 4 -> UVRegistry.FILTER_MENU_FOUR.get();
             case 5 -> UVRegistry.FILTER_MENU_FIVE.get();
+            case 6 -> UVRegistry.FILTER_MENU_SIX.get();
+            case 7 -> UVRegistry.FILTER_MENU_SEVEN.get();
+            case 8 -> UVRegistry.FILTER_MENU_EIGHT.get();
             default -> throw new IllegalArgumentException("Invalid row count: " + rows);
         };
     }

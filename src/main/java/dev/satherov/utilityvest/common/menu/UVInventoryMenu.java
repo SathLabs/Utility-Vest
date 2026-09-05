@@ -39,6 +39,9 @@ public class UVInventoryMenu extends UVVestMenu {
             case 3 -> UVRegistry.INVENTORY_MENU_THREE.get();
             case 4 -> UVRegistry.INVENTORY_MENU_FOUR.get();
             case 5 -> UVRegistry.INVENTORY_MENU_FIVE.get();
+            case 6 -> UVRegistry.INVENTORY_MENU_SIX.get();
+            case 7 -> UVRegistry.INVENTORY_MENU_SEVEN.get();
+            case 8 -> UVRegistry.INVENTORY_MENU_EIGHT.get();
             default -> throw new IllegalArgumentException("Invalid row count: " + rows);
         };
     }

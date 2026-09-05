@@ -1,0 +1,22 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "allthemodium"
+    }
+  ],
+  "type": "utilityvest:smithing_upgrade",
+  "template": {
+    "item": "allthemodium:vibranium_upgrade_smithing_template"
+  },
+  "base": {
+    "item": "utilityvest:allthemodium_utility_vest"
+  },
+  "addition": {
+    "tag": "c:ingots/vibranium"
+  },
+  "result": {
+    "count": 1,
+    "id": "utilityvest:vibranium_utility_vest"
+  }
+}
